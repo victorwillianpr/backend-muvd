@@ -5,7 +5,6 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Configuração da chave da API do The Movie Database (TMDb)
 const API_KEY = 'c93137e5c16bc23ca7873742bfe7e2cd';
 
 app.use(express.json());
@@ -17,11 +16,11 @@ app.post('/api/moviesearch', async (req, res) => {
   async function consultAPI(API_KEY, query) {
     try {
       const response = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}&page=1`);
-      const movies = response.data.results; // Obtém a lista de filmes
+      const movies = response.data.results; 
 
       const resultado = await Promise.all(
         movies.map(async (movie) => {
-          // Obtém informações do vídeo relacionadas ao filme
+          
           const videoResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${API_KEY}`);
           const videos = videoResponse.data.results;
 
@@ -30,7 +29,7 @@ app.post('/api/moviesearch', async (req, res) => {
               const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`);
               const movieDetails = response.data;
           
-              // Extrai a avaliação média do filme
+              
               const averageRating = movieDetails.vote_average.toFixed(1);
           
               return averageRating;
@@ -40,13 +39,13 @@ app.post('/api/moviesearch', async (req, res) => {
           }
           const averageRating = await getMovieDetails(API_KEY, movie.id);
 
-          // Filtra apenas os trailers
+          
           const trailers = videos.filter((video) => video.type === 'Trailer');
 
-          // Ordena os trailers por data (assumindo que o primeiro é o mais recente)
+          
           trailers.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
 
-          // Obtém a chave do vídeo do trailer mais recente
+          
           const latestTrailerKey = trailers.length > 0 ? trailers[0].key : null;
 
           return {
@@ -80,11 +79,11 @@ app.post('/api/popularmovies', async (req, res) => {
   async function consultAPI(API_KEY, page) {
     try {                               
       const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&sort_by=popularity.desc&page=${page}`);
-      const movies = response.data.results; // Obtém a lista de filmes
+      const movies = response.data.results; 
 
       const resultado = await Promise.all(
         movies.map(async (movie) => {
-          // Obtém informações do vídeo relacionadas ao filme
+         
           const videoResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${API_KEY}`);
           const videos = videoResponse.data.results;
 
@@ -93,7 +92,7 @@ app.post('/api/popularmovies', async (req, res) => {
               const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`);
               const movieDetails = response.data;
           
-              // Extrai a avaliação média do filme
+           
               const averageRating = movieDetails.vote_average.toFixed(1);
           
               return averageRating;
@@ -104,13 +103,13 @@ app.post('/api/popularmovies', async (req, res) => {
           const averageRating = await getMovieDetails(API_KEY, movie.id);
 
 
-          // Filtra apenas os trailers
+          
           const trailers = videos.filter((video) => video.type === 'Trailer');
 
-          // Ordena os trailers por data (assumindo que o primeiro é o mais recente)
+          
           trailers.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
 
-          // Obtém a chave do vídeo do trailer mais recente
+          
           const latestTrailerKey = trailers.length > 0 ? trailers[0].key : null;
 
           return {
@@ -144,11 +143,11 @@ app.post('/api/topratedmovies', async (req, res) => {
   async function consultAPI(API_KEY, page) {
     try {                               
       const response = await axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&page=${page}`);
-      const movies = response.data.results; // Obtém a lista de filmes
+      const movies = response.data.results; 
 
       const resultado = await Promise.all(
         movies.map(async (movie) => {
-          // Obtém informações do vídeo relacionadas ao filme
+          
           const videoResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${API_KEY}`);
           const videos = videoResponse.data.results;
 
@@ -157,7 +156,7 @@ app.post('/api/topratedmovies', async (req, res) => {
               const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`);
               const movieDetails = response.data;
           
-              // Extrai a avaliação média do filme
+             
               const averageRating = movieDetails.vote_average.toFixed(1);
           
               return averageRating;
@@ -167,13 +166,13 @@ app.post('/api/topratedmovies', async (req, res) => {
           }
           const averageRating = await getMovieDetails(API_KEY, movie.id);
 
-          // Filtra apenas os trailers
+         
           const trailers = videos.filter((video) => video.type === 'Trailer');
 
-          // Ordena os trailers por data (assumindo que o primeiro é o mais recente)
+          
           trailers.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
 
-          // Obtém a chave do vídeo do trailer mais recente
+          
           const latestTrailerKey = trailers.length > 0 ? trailers[0].key : null;
 
           return {
@@ -208,11 +207,11 @@ app.post('/api/moviecategory', async (req, res) => {
   async function consultAPI(API_KEY, query, page) {
     try {
       const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${query}&page=${page}`);
-      const movies = response.data.results; // Obtém a lista de filmes
+      const movies = response.data.results; 
 
       const resultado = await Promise.all(
         movies.map(async (movie) => {
-          // Obtém informações do vídeo relacionadas ao filme
+          
           const videoResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${API_KEY}`);
           const videos = videoResponse.data.results;
 
@@ -221,7 +220,7 @@ app.post('/api/moviecategory', async (req, res) => {
               const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`);
               const movieDetails = response.data;
           
-              // Extrai a avaliação média do filme
+             
               const averageRating = movieDetails.vote_average.toFixed(1);
           
               return averageRating;
@@ -231,13 +230,13 @@ app.post('/api/moviecategory', async (req, res) => {
           }
           const averageRating = await getMovieDetails(API_KEY, movie.id);
 
-          // Filtra apenas os trailers
+          
           const trailers = videos.filter((video) => video.type === 'Trailer');
 
-          // Ordena os trailers por data (assumindo que o primeiro é o mais recente)
+          
           trailers.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
 
-          // Obtém a chave do vídeo do trailer mais recente
+         
           const latestTrailerKey = trailers.length > 0 ? trailers[0].key : null;
 
           return {
@@ -273,11 +272,11 @@ app.post('/api/moremoviecategory', async (req, res) => {
   async function consultAPI(API_KEY, query, page) {
     try {                               
       const response = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${query}&page=${page}`);
-      const movies = response.data.results; // Obtém a lista de filmes
+      const movies = response.data.results; 
 
       const resultado = await Promise.all(
         movies.map(async (movie) => {
-          // Obtém informações do vídeo relacionadas ao filme
+         
           const videoResponse = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${API_KEY}`);
           const videos = videoResponse.data.results;
 
@@ -286,7 +285,7 @@ app.post('/api/moremoviecategory', async (req, res) => {
               const response = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}`);
               const movieDetails = response.data;
           
-              // Extrai a avaliação média do filme
+              
               const averageRating = movieDetails.vote_average.toFixed(1);
           
               return averageRating;
@@ -296,13 +295,13 @@ app.post('/api/moremoviecategory', async (req, res) => {
           }
           const averageRating = await getMovieDetails(API_KEY, movie.id);
 
-          // Filtra apenas os trailers
+         
           const trailers = videos.filter((video) => video.type === 'Trailer');
 
-          // Ordena os trailers por data (assumindo que o primeiro é o mais recente)
+         
           trailers.sort((a, b) => new Date(b.published_at) - new Date(a.published_at));
 
-          // Obtém a chave do vídeo do trailer mais recente
+          
           const latestTrailerKey = trailers.length > 0 ? trailers[0].key : null;
 
           return {
@@ -328,7 +327,6 @@ app.post('/api/moremoviecategory', async (req, res) => {
     res.status(500).json({ error: 'Erro ao buscar dados do TMDb' });
   }
 });
-// Iniciar o servidor
 app.listen(PORT, () => {
   console.log(`O servidor está ouvindo na porta ${PORT}`);
 });
