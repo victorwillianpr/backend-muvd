@@ -2,5 +2,4 @@
 
 ```bash
 npm install
-```bash
 node server.js
