@@ -8,12 +8,7 @@ const PORT = process.env.PORT || 3001;
 const API_KEY = 'c93137e5c16bc23ca7873742bfe7e2cd';
 
 app.use(express.json());
-const corsOptions = {
-  origin: 'https://frontend-muvd.vercel.app/', // Troque para a URL do seu frontend
-  credentials: true, // Permite o envio de cookies
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Backend muvd');
