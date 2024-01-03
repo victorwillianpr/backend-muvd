@@ -10,6 +10,10 @@ const API_KEY = 'c93137e5c16bc23ca7873742bfe7e2cd';
 app.use(express.json());
 app.use(cors());
 
+app.get('/', (req, res) => {
+  res.send('Backend muvd');
+});
+
 app.post('/api/moviesearch', async (req, res) => {
   const { query } = req.body;
 
